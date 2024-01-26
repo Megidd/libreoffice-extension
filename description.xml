@@ -7,16 +7,16 @@
 	<icon>
         	<default xlink:href="icons/image_42.png" />
     	</icon>
-	<version value="1.0"/>
+	<version value="1.1"/>
 	<registration>
 		<simple-license  accept-by="admin" default-license-id="ID0" suppress-on-update="true" >
 			<license-text xlink:href="registration/license.txt" lang="en" license-id="ID0" />
 		</simple-license>
 	</registration>
      <publisher>
-	      <name xlink:href="mailto:youremail@smt.com">Your Name</name>
+	      <name xlink:href="mailto:youremail@smt.com">KD Process</name>
       </publisher>
        <display-name>
-            <name>Hello World</name>
+            <name>KD Process</name>
        </display-name>
 </description>
