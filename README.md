@@ -1,5 +1,5 @@
 # LibreOffice extension
-This LibreOffice extension (`*.oxt`) - Adds a button to standand toolbar of LibreOffice Calc, when button is clicked, the process is run.
+This LibreOffice extension `*.oxt` file adds a button to standand toolbar of LibreOffice Calc. When button is clicked, the process is run.
 
 <div align="center">
   <img src="result.png">
@@ -21,6 +21,6 @@ This LibreOffice extension (`*.oxt`) - Adds a button to standand toolbar of Libr
 
 ### How to package the extension
 
-1. Select all files inside repository folder (it does not work if you compress the entire parent folder, because description.xml must be located at the top level).
+1. Select all files inside repository folder. It won't work if you compress the entire parent folder, because description.xml must be located at the top level.
 2. Right-click and compress to `*.zip`.
 3. Rename `*.zip` to `*.oxt`.
