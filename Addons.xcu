@@ -28,7 +28,7 @@
                         <value/>
                      </prop>
                      <prop oor:name="Title" oor:type="xs:string">
-                        <value xml:lang="en">Hello World</value>
+                        <value xml:lang="en">KD process</value>
                      </prop>
                      <prop oor:name="URL" oor:type="xs:string">
 		  	<value>vnd.sun.star.script:HelloWorldLibrary.Module1.HelloWorldMacro?language=Basic&amp;location=application</value>
