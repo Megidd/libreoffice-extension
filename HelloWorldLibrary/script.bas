@@ -4,7 +4,7 @@ Sub HelloWorldMacro()
 
 	Cleanup()
 
-	CsvURL = File("Select KD output")
+	CsvURL = File("Select KD result")
 	sheetI = SheetBy(CsvURL, "Import")
 
 	CsvURL = File("Select map")
