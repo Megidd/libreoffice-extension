@@ -45,4 +45,12 @@ Sub HelloWorldMacro()
 
 	'release link so that the document is independent
 	sheetI.setLinkMode(com.sun.star.sheet.SheetLinkMode.NONE)
+
+	' Create sheet for map.
+	exists = sheets.hasByName("Map")
+	if exists then sheets.removeByName("Map")
+
+	sheetM = doc.createInstance("com.sun.star.sheet.Spreadsheet")
+	sheets.insertByName("Map", sheetM)
+
 End Sub
