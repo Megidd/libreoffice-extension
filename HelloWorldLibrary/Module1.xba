@@ -35,10 +35,6 @@ Function Cleanup()
 	doc = ThisComponent
 	sheets = doc.Sheets
 
-	' Make sure at least one sheet exists.
-	exists = sheets.hasByName("Sheet1")
-	if not exists then sheets.insertNewByName("Sheet1", 0)
-
 	exists = sheets.hasByName("Import")
 	if exists then sheets.removeByName("Import")
 
