@@ -2,11 +2,6 @@ Sub HelloWorldMacro()
 	doc = ThisComponent
 	sheets = doc.Sheets
 
-	' User home directory is needed to get files by file picker.
-	Dim oSubst As Object, Home As String
-	oSubst = CreateUnoService("com.sun.star.util.PathSubstitution")
-	Home = oSubst.getSubstituteVariableValue("$(home)")
-
 	' Get import file.
 	CsvURL = FileName("Select KD output")
 
@@ -41,6 +36,11 @@ Sub HelloWorldMacro()
 End Sub
 
 Function FileName(msg) As String
+	' User home directory is needed to get files by file picker.
+	Dim oSubst As Object, Home As String
+	oSubst = CreateUnoService("com.sun.star.util.PathSubstitution")
+	Home = oSubst.getSubstituteVariableValue("$(home)")
+
 	Dim oFilePicker As Object, FilePath As String
 	FilePath = ""
 	'FilePicker initialization
@@ -54,5 +54,6 @@ Function FileName(msg) As String
 		com.sun.star.ui.dialogs.ExecutableDialogResults.OK Then
 		FilePath = oFilePicker.Files(0)
 	End If
+
 	FileName = FilePath
 End Function
