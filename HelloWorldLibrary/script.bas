@@ -1,15 +1,13 @@
 Sub HelloWorldMacro()
 	doc = ThisComponent
 	sheets = doc.Sheets
-	exists = sheets.hasByName("Imported")
-	if exists then sheets.removeByName("Imported")
-	sheet = doc.createInstance("com.sun.star.sheet.Spreadsheet")
-	sheets.insertByName("Imported", sheet)
 
+	' User home directory is needed to get files by file picker.
 	Dim oSubst As Object, Home As String
 	oSubst = CreateUnoService("com.sun.star.util.PathSubstitution")
 	Home = oSubst.getSubstituteVariableValue("$(home)")
 
+	' Get import file.
 	Dim oFilePicker As Object, FilePath As String
 	FilePath = ""
 	'FilePicker initialization
@@ -17,26 +15,34 @@ Sub HelloWorldMacro()
 	oFilePicker.DisplayDirectory = Home
 	oFilePicker.appendFilter("CSV Documents", "*.csv")
 	oFilePicker.CurrentFilter = "CSV Documents"
-	oFilePicker.Title = "Select a CSV document"
+	oFilePicker.Title = "Select the KD output"
 	'execution and return check (OK?)
 	If oFilePicker.execute = _
 		com.sun.star.ui.dialogs.ExecutableDialogResults.OK Then
 		FilePath = oFilePicker.Files(0)
 	End If
-	Print FilePath
 
 	Dim CsvURL As String 'the .csv source address
 	Dim Filter As String
-	Dim oSheet As Object 'the target sheet in the document
-	oSheet = sheets.getByName("Imported")
 	CsvURL = FilePath
 	'csv file read options
 	Filter = "44,34,65535,1,1/1"
 
+	' Make sure at least one sheet exists.
+	exists = sheets.hasByName("Sheet1")
+	if not exists then sheets.insertNewByName("Sheet1", 0)
+
+	' Create sheet for import.
+	exists = sheets.hasByName("Imported")
+	if exists then sheets.removeByName("Imported")
+
+	sheetI = doc.createInstance("com.sun.star.sheet.Spreadsheet")
+	sheets.insertByName("Imported", sheetI)
+
 	'import creating a link between the sheet and the .csv source
-	oSheet.link(CsvURL, "", "Text - txt - csv (StarCalc)", _
+	sheetI.link(CsvURL, "", "Text - txt - csv (StarCalc)", _
 	Filter, com.sun.star.sheet.SheetLinkMode.VALUE)
 
 	'release link so that the document is independent
-	oSheet.setLinkMode(com.sun.star.sheet.SheetLinkMode.NONE)
+	sheetI.setLinkMode(com.sun.star.sheet.SheetLinkMode.NONE)
 End Sub
