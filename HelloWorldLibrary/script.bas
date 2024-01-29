@@ -4,7 +4,6 @@ Sub HelloWorldMacro()
 
 	Cleanup()
 
-	' Get import file.
 	CsvURL = File("Select KD output")
 
 	sheetI = doc.createInstance("com.sun.star.sheet.Spreadsheet")
@@ -12,7 +11,7 @@ Sub HelloWorldMacro()
 
 	'csv file read options
 	Filter = "44,34,65535,1,1/1"
-	'import creating a link between the sheet and the .csv source
+	'Creating a link between the sheet and the .csv source
 	sheetI.link(CsvURL, "", "Text - txt - csv (StarCalc)", _
 	Filter, com.sun.star.sheet.SheetLinkMode.VALUE)
 
