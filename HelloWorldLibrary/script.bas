@@ -2,16 +2,10 @@ Sub HelloWorldMacro()
 	doc = ThisComponent
 	sheets = doc.Sheets
 
+	Cleanup()
+
 	' Get import file.
 	CsvURL = File("Select KD output")
-
-	' Make sure at least one sheet exists.
-	exists = sheets.hasByName("Sheet1")
-	if not exists then sheets.insertNewByName("Sheet1", 0)
-
-	' Create sheet for import.
-	exists = sheets.hasByName("Imported")
-	if exists then sheets.removeByName("Imported")
 
 	sheetI = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Imported", sheetI)
@@ -33,6 +27,21 @@ Sub HelloWorldMacro()
 	sheets.insertByName("Map", sheetM)
 
 End Sub
+
+Function Cleanup()
+	doc = ThisComponent
+	sheets = doc.Sheets
+
+	' Make sure at least one sheet exists.
+	exists = sheets.hasByName("Sheet1")
+	if not exists then sheets.insertNewByName("Sheet1", 0)
+
+	exists = sheets.hasByName("Imported")
+	if exists then sheets.removeByName("Imported")
+
+	exists = sheets.hasByName("Map")
+	if exists then sheets.removeByName("Map")
+End Function
 
 Function File(msg) As String
 	' User home directory is needed to get files by file picker.
