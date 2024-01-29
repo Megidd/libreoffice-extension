@@ -44,9 +44,7 @@ Function Cleanup()
 End Function
 
 Function File(msg) As String
-	Dim oFilePicker As Object, FilePath As String
-	FilePath = ""
-	'FilePicker initialization
+	Dim oFilePicker As Object
 	oFilePicker = CreateUnoService("com.sun.star.ui.dialogs.FilePicker")
 	oFilePicker.appendFilter("CSV Documents", "*.csv")
 	oFilePicker.CurrentFilter = "CSV Documents"
@@ -54,8 +52,6 @@ Function File(msg) As String
 	'execution and return check (OK?)
 	If oFilePicker.execute = _
 		com.sun.star.ui.dialogs.ExecutableDialogResults.OK Then
-		FilePath = oFilePicker.Files(0)
+		File = oFilePicker.Files(0)
 	End If
-
-	File = FilePath
 End Function
