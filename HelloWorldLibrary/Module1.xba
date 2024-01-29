@@ -9,22 +9,10 @@ Sub HelloWorldMacro()
 	Cleanup()
 
 	CsvURL = File("Select KD output")
+	sheetI = SheetBy(CsvURL, "Import")
 
-	sheetI = doc.createInstance("com.sun.star.sheet.Spreadsheet")
-	sheets.insertByName("Import", sheetI)
-
-	'csv file read options
-	Filter = "44,34,65535,1,1/1"
-	'Creating a link between the sheet and the .csv source
-	sheetI.link(CsvURL, "", "Text - txt - csv (StarCalc)", _
-	Filter, com.sun.star.sheet.SheetLinkMode.VALUE)
-
-	'release link so that the document is independent
-	sheetI.setLinkMode(com.sun.star.sheet.SheetLinkMode.NONE)
-
-	sheetM = doc.createInstance("com.sun.star.sheet.Spreadsheet")
-	sheets.insertByName("Map", sheetM)
-
+	CsvURL = File("Select map")
+	sheetM = SheetBy(CsvURL, "Map")
 End Sub
 
 Function Cleanup()
@@ -49,6 +37,24 @@ Function File(msg) As String
 		com.sun.star.ui.dialogs.ExecutableDialogResults.OK Then
 		File = oFilePicker.Files(0)
 	End If
+End Function
+
+Function SheetBy(File, Name) As Object
+	doc = ThisComponent
+	sheets = doc.Sheets
+
+	sheet = doc.createInstance("com.sun.star.sheet.Spreadsheet")
+	sheets.insertByName(Name, sheet)
+
+	'csv file read options
+	Filter = "44,34,65535,1,1/1"
+	'Creating a link between the sheet and the .csv source
+	sheet.link(File, "", "Text - txt - csv (StarCalc)", _
+	Filter, com.sun.star.sheet.SheetLinkMode.VALUE)
+
+	'release link so that the document is independent
+	sheet.setLinkMode(com.sun.star.sheet.SheetLinkMode.NONE)
+	SheetBy = sheet
 End Function
 
 </script:module>
