@@ -44,6 +44,8 @@ Function SheetBy(File, Name) As Object
 	sheet = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName(Name, sheet)
 
+	' CSV encoding is assumed to be UTF-16 LE
+
 	'csv file read options
 	Filter = "44,34,65535,1,1/1"
 	'Creating a link between the sheet and the .csv source
