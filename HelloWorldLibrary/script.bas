@@ -3,7 +3,7 @@ Sub HelloWorldMacro()
 	sheets = doc.Sheets
 
 	' Get import file.
-	CsvURL = FileName("Select KD output")
+	CsvURL = File("Select KD output")
 
 	'csv file read options
 	Filter = "44,34,65535,1,1/1"
@@ -35,7 +35,7 @@ Sub HelloWorldMacro()
 
 End Sub
 
-Function FileName(msg) As String
+Function File(msg) As String
 	' User home directory is needed to get files by file picker.
 	Dim oSubst As Object, Home As String
 	oSubst = CreateUnoService("com.sun.star.util.PathSubstitution")
@@ -55,5 +55,5 @@ Function FileName(msg) As String
 		FilePath = oFilePicker.Files(0)
 	End If
 
-	FileName = FilePath
+	File = FilePath
 End Function
