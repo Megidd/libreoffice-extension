@@ -12,23 +12,8 @@ Sub HelloWorldMacro()
 	Home = oSubst.getSubstituteVariableValue("$(home)")
 
 	' Get import file.
-	Dim oFilePicker As Object, FilePath As String
-	FilePath = ""
-	'FilePicker initialization
-	oFilePicker = CreateUnoService("com.sun.star.ui.dialogs.FilePicker")
-	oFilePicker.DisplayDirectory = Home
-	oFilePicker.appendFilter("CSV Documents", "*.csv")
-	oFilePicker.CurrentFilter = "CSV Documents"
-	oFilePicker.Title = "Select the KD output"
-	'execution and return check (OK?)
-	If oFilePicker.execute = _
-		com.sun.star.ui.dialogs.ExecutableDialogResults.OK Then
-		FilePath = oFilePicker.Files(0)
-	End If
+	CsvURL = FileName("Select KD output")
 
-	Dim CsvURL As String 'the .csv source address
-	Dim Filter As String
-	CsvURL = FilePath
 	'csv file read options
 	Filter = "44,34,65535,1,1/1"
 
@@ -58,5 +43,22 @@ Sub HelloWorldMacro()
 	sheets.insertByName("Map", sheetM)
 
 End Sub
+
+Function FileName(msg) As String
+	Dim oFilePicker As Object, FilePath As String
+	FilePath = ""
+	'FilePicker initialization
+	oFilePicker = CreateUnoService("com.sun.star.ui.dialogs.FilePicker")
+	oFilePicker.DisplayDirectory = Home
+	oFilePicker.appendFilter("CSV Documents", "*.csv")
+	oFilePicker.CurrentFilter = "CSV Documents"
+	oFilePicker.Title = msg
+	'execution and return check (OK?)
+	If oFilePicker.execute = _
+		com.sun.star.ui.dialogs.ExecutableDialogResults.OK Then
+		FilePath = oFilePicker.Files(0)
+	End If
+	FileName = FilePath
+End Function
 
 </script:module>
