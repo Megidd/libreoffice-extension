@@ -5,9 +5,6 @@ Sub HelloWorldMacro()
 	' Get import file.
 	CsvURL = File("Select KD output")
 
-	'csv file read options
-	Filter = "44,34,65535,1,1/1"
-
 	' Make sure at least one sheet exists.
 	exists = sheets.hasByName("Sheet1")
 	if not exists then sheets.insertNewByName("Sheet1", 0)
@@ -19,6 +16,8 @@ Sub HelloWorldMacro()
 	sheetI = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Imported", sheetI)
 
+	'csv file read options
+	Filter = "44,34,65535,1,1/1"
 	'import creating a link between the sheet and the .csv source
 	sheetI.link(CsvURL, "", "Text - txt - csv (StarCalc)", _
 	Filter, com.sun.star.sheet.SheetLinkMode.VALUE)
