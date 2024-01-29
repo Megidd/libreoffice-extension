@@ -7,7 +7,7 @@ Sub HelloWorldMacro()
 	CsvURL = File("Select KD output")
 
 	sheetI = doc.createInstance("com.sun.star.sheet.Spreadsheet")
-	sheets.insertByName("Imported", sheetI)
+	sheets.insertByName("Import", sheetI)
 
 	'csv file read options
 	Filter = "44,34,65535,1,1/1"
@@ -35,8 +35,8 @@ Function Cleanup()
 	exists = sheets.hasByName("Sheet1")
 	if not exists then sheets.insertNewByName("Sheet1", 0)
 
-	exists = sheets.hasByName("Imported")
-	if exists then sheets.removeByName("Imported")
+	exists = sheets.hasByName("Import")
+	if exists then sheets.removeByName("Import")
 
 	exists = sheets.hasByName("Map")
 	if exists then sheets.removeByName("Map")
