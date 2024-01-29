@@ -15,6 +15,8 @@ Function Cleanup()
 	doc = ThisComponent
 	sheets = doc.Sheets
 
+	' Delete previous data
+
 	exists = sheets.hasByName("Import")
 	if exists then sheets.removeByName("Import")
 
