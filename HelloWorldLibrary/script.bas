@@ -44,16 +44,10 @@ Function Cleanup()
 End Function
 
 Function File(msg) As String
-	' User home directory is needed to get files by file picker.
-	Dim oSubst As Object, Home As String
-	oSubst = CreateUnoService("com.sun.star.util.PathSubstitution")
-	Home = oSubst.getSubstituteVariableValue("$(home)")
-
 	Dim oFilePicker As Object, FilePath As String
 	FilePath = ""
 	'FilePicker initialization
 	oFilePicker = CreateUnoService("com.sun.star.ui.dialogs.FilePicker")
-	oFilePicker.DisplayDirectory = Home
 	oFilePicker.appendFilter("CSV Documents", "*.csv")
 	oFilePicker.CurrentFilter = "CSV Documents"
 	oFilePicker.Title = msg
