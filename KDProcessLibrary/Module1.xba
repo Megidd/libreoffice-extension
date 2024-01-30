@@ -23,13 +23,13 @@ Sub KDProcessMacro()
     For i = 0 To rangeI.Rows.Count
         Print rangeI.Rows(i).AbsoluteName
         ' A group of ranges is returned.
-        cells = rangeI.Rows(i).queryContentCells( _
+        group = rangeI.Rows(i).queryContentCells( _
             com.sun.star.sheet.CellFlags.STRING OR _
             com.sun.star.sheet.CellFlags.VALUE OR _
             com.sun.star.sheet.CellFlags.DATETIME OR _
             com.sun.star.sheet.CellFlags.FORMULA)
-        If cells.Count <> 0 then ' Size is either 0 or 1.
-            Print cells(0).Columns.Count
+        If group.Count <> 0 then ' Size is either 0 or 1.
+            Print group(0).Columns.Count
         End If
     Next i
     Print s
