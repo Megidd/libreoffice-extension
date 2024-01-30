@@ -9,28 +9,26 @@ Sub KDProcessMacro()
 	Cleanup()
 
 	CsvURL = File("Select KD result")
-	sheetI = SheetBy(CsvURL, "Import")
+	sheetImp = SheetBy(CsvURL, "Import")
 
 	CsvURL = File("Select map")
-	sheetM = SheetBy(CsvURL, "Map")
+	sheetMap = SheetBy(CsvURL, "Map")
 
-    Dim propsOfUnits As New Collection
+    map = PropsOfUnits(sheetMap)
+    Print map.Count
 
     For row = 0 To 99 ' Make sure data is less this threshold.
         For col = 0 To 1024 ' Make sure data is less than this threshold.
-            cell = sheetI.getCellByPosition(col, row)
-            whatKind = GetCellType(cell)
-            If whatKind <> "Empty" Then
-                Dim content As Variant
-                If whatKind = "Value" Then
-                    content = cell.getValue()
-                ElseIf whatKind = "Text" Then
-                    content = cell.getString()
-                End If
-                Print content & " => " & whatKind
+            cell = sheetImp.getCellByPosition(col, row)
+            kind = CellType(cell)
+            content = CellContent(cell)
+            If kind <> "Empty" Then
+                Print content & " => " & kind
             End If
         Next col
     Next row
+
+    Set map = map.Dispose()
 End Sub
 
 Function Cleanup()
@@ -79,19 +77,55 @@ Function SheetBy(File, Name) As Object
 	SheetBy = sheet
 End Function
 
-Function GetCellType(oCell) As String
-    Select Case oCell.getType()
+Function CellType(cell) As String
+    Select Case cell.getType()
     Case com.sun.star.table.CellContentType.EMPTY
-        GetCellType = "Empty"
+        CellType = "Empty"
     Case com.sun.star.table.CellContentType.VALUE
-        GetCellType = "Value"
+        CellType = "Value"
     Case com.sun.star.table.CellContentType.TEXT
-        GetCellType = "Text"
+        CellType = "Text"
     Case com.sun.star.table.CellContentType.FORMULA
-        GetCellType = "Formula"
+        CellType = "Formula"
     Case Else
-        GetCellType = "Unknown"
+        CellType = "Unknown"
     End Select
+End Function
+
+Function CellContent(cell) As Variant
+    Dim content As Variant
+    kind = CellType(cell)
+    If kind = "Empty" Then
+        content = Empty
+    ElseIf kind = "Value" Then
+        content = cell.getValue()
+    ElseIf kind = "Text" Then
+        content = cell.getString()
+    End If
+    CellContent = content
+End Function
+
+Function PropsOfUnits(sheetMap) As Variant
+    GlobalScope.BasicLibraries.loadLibrary("ScriptForge")
+    Dim map As Variant
+    map = CreateScriptService("Dictionary")
+
+    For row = 0 To 33 ' Make sure data is less this threshold.
+        Dim Prop As String ' Map consists of text, not number.
+        Dim Obj As String
+        col = 0
+        cell = sheetMap.getCellByPosition(col, row)
+        Prop = cell.getString()
+        col = 1 ' Make sure has only 2 columns.
+        cell = sheetMap.getCellByPosition(col, row)
+        Obj = cell.getString()
+        If Prop <> Empty AND Obj <> Empty Then
+            map.Add(Prop, Obj)
+            Print Prop & " , " & Obj
+        EndIf
+    Next row
+
+    PropsOfUnits = map
 End Function
 
 </script:module>
