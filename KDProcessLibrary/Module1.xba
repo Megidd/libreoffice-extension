@@ -15,7 +15,8 @@ Sub KDProcessMacro()
 	sheetMap = SheetBy(CsvURL, "Map")
 
     map = PropsOfUnits(sheetMap)
-    Print map.Count
+    Print UBound(map, 1)
+    Print UBound(map, 2)
 
     For row = 0 To 99 ' Make sure data is less this threshold.
         For col = 0 To 1024 ' Make sure data is less than this threshold.
@@ -106,21 +107,18 @@ Function CellContent(cell) As Variant
 End Function
 
 Function PropsOfUnits(sheetMap) As Variant
-    GlobalScope.BasicLibraries.loadLibrary("ScriptForge")
-    Dim map As Variant
-    map = CreateScriptService("Dictionary")
+    Dim map(0 to 31, 0 to 1) As String ' 32 rows, 2 columns
 
-    For row = 0 To 33 ' Make sure data is less this threshold.
+    For row = 0 To 31 ' Make sure data is less this threshold.
         Dim Prop As String ' Map consists of text, not number.
         Dim Obj As String
-        col = 0
-        cell = sheetMap.getCellByPosition(col, row)
+        cell = sheetMap.getCellByPosition(0, row)
         Prop = cell.getString()
-        col = 1 ' Make sure has only 2 columns.
-        cell = sheetMap.getCellByPosition(col, row)
+        cell = sheetMap.getCellByPosition(1, row)
         Obj = cell.getString()
         If Prop <> Empty AND Obj <> Empty Then
-            map.Add(Prop, Obj)
+            map(row, 0) = Prop
+            map(row, 1) = Obj
             Print Prop & " , " & Obj
         EndIf
     Next row
