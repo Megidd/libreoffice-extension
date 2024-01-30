@@ -29,6 +29,7 @@ Sub KDProcessMacro()
         Case com.sun.star.table.CellContentType.TEXT
             propT = "TEXT"
             prop = cell.getString()
+        Case Else : propT = ""
         End Select
         cell = sheetM.getCellByPosition(1, row)
         kind = cell.getType()
@@ -36,6 +37,7 @@ Sub KDProcessMacro()
         Case com.sun.star.table.CellContentType.TEXT
             objT = "TEXT"
             obj = cell.getString()
+        Case Else : objT = ""
         End Select
         If propT = "TEXT" AND objT = "TEXT" Then
             map.Add(prop, obj)
