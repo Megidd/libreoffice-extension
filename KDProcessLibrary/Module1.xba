@@ -23,7 +23,7 @@ Sub KDProcessMacro()
         Dim prop As String
         Dim objT As String
         Dim obj As String
-        cell = sheetM.getCellByPosition(0, row)
+        cell = sheetM.getCellByPosition(0, row) ' Map has 2 columns.
         kind = cell.getType()
         Select Case kind
         Case com.sun.star.table.CellContentType.TEXT
@@ -31,7 +31,7 @@ Sub KDProcessMacro()
             prop = cell.getString()
         Case Else : propT = ""
         End Select
-        cell = sheetM.getCellByPosition(1, row)
+        cell = sheetM.getCellByPosition(1, row) ' Map has 2 columns.
         kind = cell.getType()
         Select Case kind
         Case com.sun.star.table.CellContentType.TEXT
