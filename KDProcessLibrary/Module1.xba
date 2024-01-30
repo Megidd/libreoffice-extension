@@ -20,15 +20,16 @@ Sub KDProcessMacro()
     end_row = 1024 ' Make sure data is less than this threshold.
     rangeI = sheetI.getCellRangeByPosition(start_column, start_row, end_column, end_row)
     Dim s As String
-    For i = 0 To rangeI.Rows.Count Step 1
+    For i = 0 To rangeI.Rows.Count
         Print rangeI.Rows(i).AbsoluteName
+        ' A group of ranges is returned.
         cells = rangeI.Rows(i).queryContentCells( _
             com.sun.star.sheet.CellFlags.STRING OR _
             com.sun.star.sheet.CellFlags.VALUE OR _
             com.sun.star.sheet.CellFlags.DATETIME OR _
             com.sun.star.sheet.CellFlags.FORMULA)
-        If cells.Count <> 0 then
-            Print cells.AbsoluteName
+        If cells.Count <> 0 then ' Size is either 0 or 1.
+            Print cells(0).Columns.Count
         End If
     Next i
     Print s
