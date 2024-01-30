@@ -14,19 +14,9 @@ Sub KDProcessMacro()
 	CsvURL = File("Select map")
 	sheetM = SheetBy(CsvURL, "Map")
 
-    For row = 0 To 99 ' Make sure data is less this threshold.
+    For row = 0 To 1024 ' Make sure data is less this threshold.
         For col = 0 To 1024 ' Make sure data is less than this threshold.
-            cell = sheetI.getCellByPosition(col, row)
-            whatKind = GetCellType(cell)
-            If whatKind <> "Empty" Then
-                Dim content As Variant
-                If whatKind = "Value" Then
-                    content = cell.getValue()
-                ElseIf whatKind = "Text" Then
-                    content = cell.getString()
-                End If
-                Print content
-            End If
+            Print sheetI.getCellByPosition(col, row).AbsoluteName
         Next col
     Next row
 End Sub
@@ -75,21 +65,6 @@ Function SheetBy(File, Name) As Object
 	'release link so that the document is independent
 	sheet.setLinkMode(com.sun.star.sheet.SheetLinkMode.NONE)
 	SheetBy = sheet
-End Function
-
-Function GetCellType(oCell) As String
-    Select Case oCell.getType()
-    Case com.sun.star.table.CellContentType.EMPTY
-        GetCellType = "Empty"
-    Case com.sun.star.table.CellContentType.VALUE
-        GetCellType = "Value"
-    Case com.sun.star.table.CellContentType.TEXT
-        GetCellType = "Text"
-    Case com.sun.star.table.CellContentType.FORMULA
-        GetCellType = "Formula"
-    Case Else
-        GetCellType = "Unknown"
-    End Select
 End Function
 
 </script:module>
