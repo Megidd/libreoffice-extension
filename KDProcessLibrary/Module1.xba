@@ -22,6 +22,8 @@ Sub KDProcessMacro()
     Dim s As String
     For i = 0 To rangeI.Rows.Count Step 1
         Print rangeI.Rows(i).AbsoluteName
+        cells = rangeI.Rows(i).queryContentCells(com.sun.star.sheet.CellFlags.STRING)
+        Print cells.AbsoluteName
     Next i
     Print s
 End Sub
