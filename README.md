@@ -13,12 +13,6 @@ This LibreOffice extension `*.oxt` file adds a button to standand toolbar of Lib
 4. Follow the installation instructions.
 5. Restart LibreOffice Calc.
 
-### Extension file structure
-
-<div align="center">
-  <img src="file_structure.png">
-</div>
-
 ### How to package the extension
 
 1. Select all files inside repository folder. It won't work if you compress the entire parent folder, because description.xml must be located at the top level.
