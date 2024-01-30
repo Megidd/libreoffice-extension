@@ -14,11 +14,39 @@ Sub KDProcessMacro()
 	CsvURL = File("Select map")
 	sheetM = SheetBy(CsvURL, "Map")
 
+    GlobalScope.BasicLibraries.loadLibrary("ScriptForge")
+    Dim map As Variant
+    map = CreateScriptService("Dictionary")
+
+    For row = 0 To 33 ' Make sure data is less this threshold.
+        Dim propT As String
+        Dim prop As String
+        Dim objT As String
+        Dim obj As String
+        cell = sheetM.getCellByPosition(0, row)
+        kind = cell.getType()
+        Select Case kind
+        Case com.sun.star.table.CellContentType.TEXT
+            propT = "TEXT"
+            prop = cell.getString()
+        End Select
+        cell = sheetM.getCellByPosition(1, row)
+        kind = cell.getType()
+        Select Case kind
+        Case com.sun.star.table.CellContentType.TEXT
+            objT = "TEXT"
+            obj = cell.getString()
+        End Select
+        If propT = "TEXT" AND objT = "TEXT" Then
+            map.Add(prop, obj)
+        EndIf
+    Next row
+
     Dim cellT As Variant
     Dim cellC As Variant
 
-    For row = 0 To 99 ' Make sure data is less this threshold.
-        For col = 0 To 1024 ' Make sure data is less than this threshold.
+    For row = 0 To 1024 ' Make sure data is less this threshold.
+        For col = 0 To 99 ' Make sure data is less than this threshold.
             cell = sheetI.getCellByPosition(col, row)
             kind = cell.getType()
             Select Case kind
