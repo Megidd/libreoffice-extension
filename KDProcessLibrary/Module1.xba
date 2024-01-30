@@ -13,6 +13,17 @@ Sub KDProcessMacro()
 
 	CsvURL = File("Select map")
 	sheetM = SheetBy(CsvURL, "Map")
+
+    start_column = 0
+    start_row = 0
+    end_column = 1024
+    end_row = 1024
+    rangeI = sheetI.getCellRangeByPosition(start_column, start_row, end_column, end_row)
+    Dim s As String
+    For i = 0 To rangeI.Rows.Count Step 1
+        Print rangeI.Rows(i).AbsoluteName
+    Next i
+    Print s
 End Sub
 
 Function Cleanup()
