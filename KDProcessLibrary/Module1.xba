@@ -48,6 +48,8 @@ Sub KDProcessMacro()
         EndIf
     Next row
 
+	Print map.Count
+
     Dim cellT As Variant
     Dim cellC As Variant
 
