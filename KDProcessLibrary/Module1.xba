@@ -14,25 +14,11 @@ Sub KDProcessMacro()
 	CsvURL = File("Select map")
 	sheetM = SheetBy(CsvURL, "Map")
 
-    start_column = 0
-    start_row = 0
-    end_column = 1024 ' Make sure data is less this threshold.
-    end_row = 1024 ' Make sure data is less than this threshold.
-    rangeI = sheetI.getCellRangeByPosition(start_column, start_row, end_column, end_row)
-    Dim s As String
-    For i = 0 To rangeI.Rows.Count
-        Print rangeI.Rows(i).AbsoluteName
-        ' A group of ranges is returned.
-        group = rangeI.Rows(i).queryContentCells( _
-            com.sun.star.sheet.CellFlags.STRING OR _
-            com.sun.star.sheet.CellFlags.VALUE OR _
-            com.sun.star.sheet.CellFlags.DATETIME OR _
-            com.sun.star.sheet.CellFlags.FORMULA)
-        If group.Count <> 0 then ' Size is either 0 or 1.
-            Print group(0).Columns.Count
-        End If
-    Next i
-    Print s
+    For row = 0 To 1024 ' Make sure data is less this threshold.
+        For col = 0 To 1024 ' Make sure data is less than this threshold.
+            Print sheetI.getCellByPosition(col, row).AbsoluteName
+        Next col
+    Next row
 End Sub
 
 Function Cleanup()
