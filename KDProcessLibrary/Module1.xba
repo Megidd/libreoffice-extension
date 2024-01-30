@@ -14,8 +14,6 @@ Sub KDProcessMacro()
 	CsvURL = File("Select map")
 	sheetM = SheetBy(CsvURL, "Map")
 
-    Dim propsOfUnits As New Collection
-
     For row = 0 To 99 ' Make sure data is less this threshold.
         For col = 0 To 1024 ' Make sure data is less than this threshold.
             cell = sheetI.getCellByPosition(col, row)
@@ -27,7 +25,7 @@ Sub KDProcessMacro()
                 ElseIf whatKind = "Text" Then
                     content = cell.getString()
                 End If
-                Print content & " => " & whatKind
+                Print content
             End If
         Next col
     Next row
