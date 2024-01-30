@@ -18,6 +18,10 @@ Sub KDProcessMacro()
     Dim map As Variant
     map = CreateScriptService("Dictionary")
 
+    ' Map has 2 columns.
+    ' 1st column contains properties.
+    ' 2nd column contains an object to which a propert applies.
+
     For row = 0 To 33 ' Make sure data is less this threshold.
         Dim propT As String
         Dim prop As String
