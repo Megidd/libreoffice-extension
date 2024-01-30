@@ -16,14 +16,20 @@ Sub KDProcessMacro()
 
     start_column = 0
     start_row = 0
-    end_column = 1024
-    end_row = 1024
+    end_column = 1024 ' Make sure data is less this threshold.
+    end_row = 1024 ' Make sure data is less than this threshold.
     rangeI = sheetI.getCellRangeByPosition(start_column, start_row, end_column, end_row)
     Dim s As String
     For i = 0 To rangeI.Rows.Count Step 1
         Print rangeI.Rows(i).AbsoluteName
-        cells = rangeI.Rows(i).queryContentCells(com.sun.star.sheet.CellFlags.STRING)
-        Print cells.AbsoluteName
+        cells = rangeI.Rows(i).queryContentCells( _
+            com.sun.star.sheet.CellFlags.STRING OR _
+            com.sun.star.sheet.CellFlags.VALUE OR _
+            com.sun.star.sheet.CellFlags.DATETIME OR _
+            com.sun.star.sheet.CellFlags.FORMULA)
+        If cells.Count <> 0 then
+            Print cells.AbsoluteName
+        End If
     Next i
     Print s
 End Sub
