@@ -1,8 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
-<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Module1" script:language="StarBasic" script:moduleType="normal">REM  *****  BASIC  *****
-
-Sub HelloWorldMacro()
+Sub KDProcessMacro()
 	doc = ThisComponent
 	sheets = doc.Sheets
 
@@ -60,5 +56,3 @@ Function SheetBy(File, Name) As Object
 	sheet.setLinkMode(com.sun.star.sheet.SheetLinkMode.NONE)
 	SheetBy = sheet
 End Function
-
-</script:module>

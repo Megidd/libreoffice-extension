@@ -3,7 +3,7 @@
  xmlns="http://openoffice.org/extensions/description/2006"
  xmlns:dep="http://openoffice.org/extensions/description/2006"
  xmlns:xlink="http://www.w3.org/1999/xlink">
-	<identifier value="org.broffice.helloworldmacro"/>
+	<identifier value="org.broffice.KDProcessmacro"/>
 	<icon>
         	<default xlink:href="icons/image_42.png" />
     	</icon>
