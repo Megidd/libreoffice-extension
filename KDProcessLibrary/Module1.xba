@@ -55,7 +55,7 @@ Sub KDProcessMacro()
 
     Dim unit As Long
     For unit = 1 To 222
-        unitProps = PropsBy(unit, map)
+        unitProps = PropsBy(unit, map, sheetI)
     Next unit
 
     For row = 0 To 1024 ' Make sure data is less this threshold.
@@ -133,7 +133,7 @@ Function SheetBy(File, Name) As Object
 	SheetBy = sheet
 End Function
 
-Function PropsBy(unit, map) As Variant
+Function PropsBy(unit, map, sheetI) As Variant
     For row = 0 To 1024 ' Make sure data is less this threshold.
         Dim cellT As String : cellT = ""
         Dim cellC As Long : cellC = 0
@@ -157,13 +157,13 @@ Function PropsBy(unit, map) As Variant
                 cellT = "TEXT"
                 cellC = cell.getString()
             End Select
-            cell = sheetE.getCellByPosition(col, row)
+
             If cellT = "VALUE" Then
-                cell.setValue(cellC)
+                ' Map only contains string.
             ElseIf cellT = "TEXT" Then
-                cell.setString(cellC)
+                ' TODO: compare with map.
             Else
-                ' Don't copy.
+                ' Nothing.
             End If
         Next col
     Next row
