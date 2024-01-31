@@ -227,10 +227,10 @@ Sub Export(sheetI, map, sheetE, unitCount, unitProp)
                 cell = sheetI.getCellByPosition(col, row)
                 kind = cell.getType()
                 Select Case kind
-                Case com.sun.star.table.cellConontentType.VALUE
+                Case com.sun.star.table.cellContentType.VALUE
                     cellTyp = "VALUE"
                     cellCon = cell.getValue()
-                Case com.sun.star.table.cellConontentType.TEXT
+                Case com.sun.star.table.cellContentType.TEXT
                     cellTyp = "TEXT"
                     cellCon = cell.getString()
                 End Select
