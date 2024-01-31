@@ -146,26 +146,28 @@ Function PropsBy(unit, map, sheetI) As Variant
         Case Else : cellT = ""
         End Select
 
-        For col = 0 To 99 ' Make sure data is less than this threshold.
-            cell = sheetI.getCellByPosition(col, row)
-            kind = cell.getType()
-            Select Case kind
-            Case com.sun.star.table.CellContentType.VALUE
-                cellT = "VALUE"
-                cellC = cell.getValue()
-            Case com.sun.star.table.CellContentType.TEXT
-                cellT = "TEXT"
-                cellC = cell.getString()
-            End Select
+        If cellC = unit Then
+            For col = 1 To 99 ' Make sure data is less than this threshold.
+                Dim cellT As String : cellT = ""
+                Dim cellC As String : cellC = ""
+                cell = sheetI.getCellByPosition(col, row)
+                kind = cell.getType()
+                Select Case kind
+                Case com.sun.star.table.CellContentType.TEXT
+                    cellT = "TEXT"
+                    cellC = cell.getString()
+                End Select
 
-            If cellT = "VALUE" Then
-                ' Map only contains string.
-            ElseIf cellT = "TEXT" Then
-                ' TODO: compare with map.
-            Else
-                ' Nothing.
-            End If
-        Next col
+                ElseIf cellT = "TEXT" Then
+                    ' TODO: compare with map.
+                Else
+                    ' Nothing.
+                End If
+            Next col
+        Else
+            ' This row is not related to desired unit.
+        End If
+
     Next row
 
     PropsBy = Array("4legs", "FL")
