@@ -18,9 +18,8 @@ Sub KDProcessMacro()
     Dim map As Variant
     map = CreateScriptService("Dictionary")
     PropsObjMap(sheetM, map) ' To fill map.
-    Dim mapCount As Long : mapCount = map.Count
     txtArr = Array("Property map count is", " ")
-    txt = Join(txtArr, Str(mapCount))
+    txt = Join(txtArr, Str(map.Count))
 	MsgBox(txt, 0+64+0, "Property count")
 
     Dim unitCount As Long
