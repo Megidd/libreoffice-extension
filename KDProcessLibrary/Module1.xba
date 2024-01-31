@@ -14,6 +14,10 @@ Sub KDProcessMacro()
 	CsvURL = File("Select map")
 	sheetM = SheetBy(CsvURL, "Map")
 
+    ' Delete default sheets after our sheets are created.
+    exists = sheets.hasByName("Sheet1")
+	if exists then sheets.removeByName("Sheet1")
+
     GlobalScope.BasicLibraries.loadLibrary("ScriptForge")
     Dim map As Variant
     map = CreateScriptService("Dictionary")
