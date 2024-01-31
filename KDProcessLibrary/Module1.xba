@@ -44,17 +44,6 @@ Sub KDProcessMacro()
 
     MsgBox("Process will start. It might take some time.", 0+64+0, "Info")
     Export(sheetI, map, sheetE, unitCount, unitProp)
-
-    ' Only keep "Export" sheet to be saved as a separate file.
-    sheetI.IsVisible = False
-    sheetM.IsVisible = False
-
-    ' Keep "Export" sheet as a default sheet.
-    exists = sheets.hasByName("Sheet1")
-	if exists then sheets.removeByName("Sheet1")
-
-    sheetE.Name = "Sheet1"
-
     MsgBox("Process finished.", 0+64+0, "Info")
 
     ' Save only "Export" sheet as file.
