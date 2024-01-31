@@ -20,6 +20,10 @@ Sub KDProcessMacro()
     PropsObjMap(sheetM, map) ' To fill map.
 	Print map.Count
 
+    Dim unitCount As Long
+    CountUnits(sheetI, unitCount)
+    Print unitCount
+
     Dim unitProp(0 to 0) As String
     Dim unit As Long
     unit = 1
@@ -110,6 +114,30 @@ Sub PropsObjMap(sheetM, map) ' ByRef is default.
         If propT = "TEXT" AND objT = "TEXT" Then
             map.Add(prop, obj)
         EndIf
+    Next row
+End Sub
+
+Sub CountUnits(sheetI, ByRef unitCount As Long)
+    unitCount = -1
+    For row = 0 To 1024 ' Make sure data is less this threshold.
+        Dim cellT As String : cellT = ""
+        Dim cellC As Long : cellC = -1
+        cell = sheetI.getCellByPosition(0, row)
+        kind = cell.getType()
+        Select Case kind
+        Case com.sun.star.table.CellContentType.VALUE
+            cellT = "VALUE"
+            cellC = cell.getValue()
+        Case Else : cellT = ""
+        End Select
+
+        If cellT = "VALUE" Then
+            If cellC > unitCount Then
+                unitCount = cellC
+            End If
+        Else
+            ' This cell is not a number value.
+        End If
     Next row
 End Sub
 
