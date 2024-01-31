@@ -24,6 +24,7 @@ Sub KDProcessMacro()
     Dim unit As Long
     unit = 1
     UnitProps(unit, map, sheetI, unitProp) ' unitProp is going to be filled out.
+    Print UBound(unitProp)
 
     sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Export", sheetE)
