@@ -22,7 +22,7 @@ Sub KDProcessMacro()
 
     Dim unitCount As Long
     CountUnits(sheetI, unitCount)
-    Print unitCount
+    MsgBox(unitCount, 0+64+0, "Unit count")
 
     Dim unitProp(0 to 0) As String
     Dim unit As Long
