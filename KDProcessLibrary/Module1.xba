@@ -164,7 +164,7 @@ Function UnitProps(unit, map, sheetI, ByRef unitProp As Variant)
                     keys = map.Keys
                     For Each key In keys
                         pos = InStr(cell_C, key)
-                        If pos <> 0 Then ' Does row contain any of the map keys?
+                        If pos > 0 Then ' Does row contain any of the map keys?
                             AppendToArray(unitProp, key)
                         Else
                         End If
