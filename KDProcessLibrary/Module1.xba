@@ -20,11 +20,13 @@ Sub KDProcessMacro()
     PropsObjMap(sheetM, map) ' To fill map.
     txtArr = Array("Property map count is", " ")
     txt = Join(txtArr, Str(map.Count))
-	MsgBox(txt, 0+64+0, "Property count")
+	MsgBox(txt, 0+64+0, "Info")
 
     Dim unitCount As Long
     CountUnits(sheetI, unitCount)
-    MsgBox(unitCount, 0+64+0, "Unit count")
+    txtArr = Array("Unit count is", " ")
+    txt = Join(txtArr, Str(unitCount))
+    MsgBox(txt, 0+64+0, "Info")
 
     Dim unitProp(0 to 0) As String
     Dim unit As Long
