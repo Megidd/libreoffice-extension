@@ -17,7 +17,7 @@ Sub KDProcessMacro()
     GlobalScope.BasicLibraries.loadLibrary("ScriptForge")
     Dim map As Variant
     map = CreateScriptService("Dictionary")
-    PropsObjMap(map) ' To fill map.
+    PropsObjMap(sheetM, map) ' To fill map.
 	Print map.Count
 
     Dim unitProp(0 to 0) As String
@@ -103,7 +103,7 @@ Function SheetBy(File, Name) As Object
 	SheetBy = sheet
 End Function
 
-Sub PropsObjMap(ByRef map)
+Sub PropsObjMap(sheetM, map) ' ByRef is default.
     ' Map has 2 columns.
     ' 1st column contains properties.
     ' 2nd column contains an object to which a propert applies.
