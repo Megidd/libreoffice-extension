@@ -39,10 +39,10 @@ Sub KDProcessMacro()
 	sheets.insertByName("Export", sheetE)
 
     Export(sheetI, map, sheetE, unitCount, unitProp)
-
-    SaveAsExcel()
-
     MsgBox("Process finished.", 0+64+0, "Info")
+
+    ' Save only "Export" sheet as file.
+    SaveAsExcel()
 End Sub
 
 Function Cleanup()
@@ -269,6 +269,16 @@ Sub Export(sheetI, map, sheetE, unitCount, unitProp)
 End Sub
 
 Sub SaveAsExcel()
+	doc = ThisComponent
+	sheets = doc.Sheets
+
+    ' Only keep "Export" sheet to be saved as a separate file.
+    exists = sheets.hasByName("Import")
+	if exists then sheets.removeByName("Import")
+
+	exists = sheets.hasByName("Map")
+	if exists then sheets.removeByName("Map")
+
     Dim FilterNames(1,2) As String, Result As String
 	FilterNames(0,0) = "Excel 2007-365" : FilterNames(0,1) = "*.xlsx" : FilterNames(0,2) = "calc8"
     ' User home directory is used to save file.
@@ -276,7 +286,7 @@ Sub SaveAsExcel()
 	oSubst = CreateUnoService("com.sun.star.util.PathSubstitution")
 	Home = oSubst.getSubstituteVariableValue("$(home)")
     GlobalScope.BasicLibraries.LoadLibrary("Tools")
-	Result = StoreDocument(ThisComponent, FilterNames, "", Home)
+	Result = StoreDocument(doc, FilterNames, "", Home)
 	If Result = "" Then
 		MsgBox("File not saved", 0+16+0, "Error")
 	Else
