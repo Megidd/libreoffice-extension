@@ -17,37 +17,7 @@ Sub KDProcessMacro()
     GlobalScope.BasicLibraries.loadLibrary("ScriptForge")
     Dim map As Variant
     map = CreateScriptService("Dictionary")
-
-    ' Map has 2 columns.
-    ' 1st column contains properties.
-    ' 2nd column contains an object to which a propert applies.
-
-    For row = 0 To 9 ' Make sure data is less this threshold.
-        Dim propT As String : propT = ""
-        Dim prop As String : prop = ""
-        Dim objT As String : objT = ""
-        Dim obj As String : obj = ""
-        cell = sheetM.getCellByPosition(0, row) ' Map has 2 columns.
-        kind = cell.getType()
-        Select Case kind
-        Case com.sun.star.table.CellContentType.TEXT
-            propT = "TEXT"
-            prop = cell.getString()
-        Case Else : propT = ""
-        End Select
-        cell = sheetM.getCellByPosition(1, row) ' Map has 2 columns.
-        kind = cell.getType()
-        Select Case kind
-        Case com.sun.star.table.CellContentType.TEXT
-            objT = "TEXT"
-            obj = cell.getString()
-        Case Else : objT = ""
-        End Select
-        If propT = "TEXT" AND objT = "TEXT" Then
-            map.Add(prop, obj)
-        EndIf
-    Next row
-
+    PropsObjMap(map) ' To fill map.
 	Print map.Count
 
     Dim unitProp(0 to 0) As String
@@ -132,6 +102,38 @@ Function SheetBy(File, Name) As Object
 	sheet.setLinkMode(com.sun.star.sheet.SheetLinkMode.NONE)
 	SheetBy = sheet
 End Function
+
+Sub PropsObjMap(ByRef map)
+    ' Map has 2 columns.
+    ' 1st column contains properties.
+    ' 2nd column contains an object to which a propert applies.
+
+    For row = 0 To 9 ' Make sure data is less this threshold.
+        Dim propT As String : propT = ""
+        Dim prop As String : prop = ""
+        Dim objT As String : objT = ""
+        Dim obj As String : obj = ""
+        cell = sheetM.getCellByPosition(0, row) ' Map has 2 columns.
+        kind = cell.getType()
+        Select Case kind
+        Case com.sun.star.table.CellContentType.TEXT
+            propT = "TEXT"
+            prop = cell.getString()
+        Case Else : propT = ""
+        End Select
+        cell = sheetM.getCellByPosition(1, row) ' Map has 2 columns.
+        kind = cell.getType()
+        Select Case kind
+        Case com.sun.star.table.CellContentType.TEXT
+            objT = "TEXT"
+            obj = cell.getString()
+        Case Else : objT = ""
+        End Select
+        If propT = "TEXT" AND objT = "TEXT" Then
+            map.Add(prop, obj)
+        EndIf
+    Next row
+End Sub
 
 Function UnitProps(unit, map, sheetI, ByRef unitProp As Variant)
     Dim props(0 to 9) As String
