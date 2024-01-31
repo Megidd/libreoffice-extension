@@ -55,7 +55,7 @@ Sub KDProcessMacro()
 
     For row = 0 To 1024 ' Make sure data is less this threshold.
         For col = 0 To 99 ' Make sure data is less than this threshold.
-            Dim cellT As Variant
+            Dim cellT As String
             Dim cellC As Variant
             cell = sheetI.getCellByPosition(col, row)
             kind = cell.getType()
