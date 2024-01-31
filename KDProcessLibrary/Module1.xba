@@ -242,7 +242,7 @@ Sub Export(sheetI, map, sheetE, unitCount, unitProp)
                     For Each key In keys
                         pos = InStr(cellCon, map.Item(key))
                         If pos > 0 Then ' Does cell contain any of the map keys?
-                            cellConArr = Array(cellCon, " <=> ")
+                            cellConArr = Array(cellCon, " === ")
                             cellCon = Join(cellConArr, key)
                         End If
                     Next key
