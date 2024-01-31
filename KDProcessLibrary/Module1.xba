@@ -148,17 +148,17 @@ Function PropsBy(unit, map, sheetI) As Variant
 
         If cellC = unit Then
             For col = 1 To 99 ' Make sure data is less than this threshold.
-                Dim cellT As String : cellT = ""
-                Dim cellC As String : cellC = ""
+                Dim cell_T As String : cell_T = ""
+                Dim cell_C As String : cell_C = ""
                 cell = sheetI.getCellByPosition(col, row)
                 kind = cell.getType()
                 Select Case kind
                 Case com.sun.star.table.CellContentType.TEXT
-                    cellT = "TEXT"
-                    cellC = cell.getString()
+                    cell_T = "TEXT"
+                    cell_C = cell.getString()
                 End Select
 
-                ElseIf cellT = "TEXT" Then
+                If cell_T = "TEXT" Then
                     ' TODO: compare with map.
                 Else
                     ' Nothing.
