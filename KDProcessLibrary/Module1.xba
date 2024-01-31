@@ -220,7 +220,7 @@ Sub Export(sheetI, map, sheetE, unitCount, unitProp)
         Case Else : cellT = ""
         End Select
 
-        If cellT = "VALUE" AND cellC <= unitCount Then
+        If cellT = "VALUE" Then
             For col = 0 To 14 ' Make sure data is less than this threshold.
                 Dim cellTyp As String : cellTyp = ""
                 Dim cellCon As Variant : cellCon = 0.0
