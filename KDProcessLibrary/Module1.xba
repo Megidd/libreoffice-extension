@@ -50,6 +50,9 @@ Sub KDProcessMacro()
 
 	Print map.Count
 
+    sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
+	sheets.insertByName("Export", sheetE)
+
     Dim cellT As Variant
     Dim cellC As Variant
 
@@ -80,6 +83,9 @@ Function Cleanup()
 
 	exists = sheets.hasByName("Map")
 	if exists then sheets.removeByName("Map")
+
+	exists = sheets.hasByName("Export")
+	if exists then sheets.removeByName("Export")
 End Function
 
 Function File(msg) As String
