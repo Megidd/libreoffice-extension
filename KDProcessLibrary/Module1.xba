@@ -68,6 +68,13 @@ Sub KDProcessMacro()
                 cellT = "TEXT"
                 cellC = cell.getString()
             End Select
+            If cellT = "VALUE" Then
+                'InstructionsThen
+            ElseIf cellT = "TEXT" Then
+                'InstructionsElse
+            Else
+                ' ?
+            End If
         Next col
     Next row
 End Sub
