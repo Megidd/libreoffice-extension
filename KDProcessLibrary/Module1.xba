@@ -53,6 +53,11 @@ Sub KDProcessMacro()
     sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Export", sheetE)
 
+    Dim unit As Long
+    For unit = 1 To 222
+        unitProps = PropsBy(unit, map)
+    Next unit
+
     For row = 0 To 1024 ' Make sure data is less this threshold.
         For col = 0 To 99 ' Make sure data is less than this threshold.
             Dim cellT As String : cellT = ""
@@ -126,6 +131,10 @@ Function SheetBy(File, Name) As Object
 	'release link so that the document is independent
 	sheet.setLinkMode(com.sun.star.sheet.SheetLinkMode.NONE)
 	SheetBy = sheet
+End Function
+
+Function PropsBy(unit, map) As Variant
+    PropsBy = Array("4legs", "FL")
 End Function
 
 </script:module>
