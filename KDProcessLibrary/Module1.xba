@@ -68,12 +68,13 @@ Sub KDProcessMacro()
                 cellT = "TEXT"
                 cellC = cell.getString()
             End Select
+            cell = sheetE.getCellByPosition(col, row)
             If cellT = "VALUE" Then
-                'InstructionsThen
+                cell.setValue(cellC)
             ElseIf cellT = "TEXT" Then
-                'InstructionsElse
+                cell.setString(cellC)
             Else
-                ' ?
+                ' Don't copy.
             End If
         Next col
     Next row
