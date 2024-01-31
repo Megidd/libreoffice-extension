@@ -22,7 +22,7 @@ Sub KDProcessMacro()
     ' 1st column contains properties.
     ' 2nd column contains an object to which a propert applies.
 
-    For row = 0 To 33 ' Make sure data is less this threshold.
+    For row = 0 To 9 ' Make sure data is less this threshold.
         Dim propT As String : propT = ""
         Dim prop As String : prop = ""
         Dim objT As String : objT = ""
@@ -58,7 +58,7 @@ Sub KDProcessMacro()
 	sheets.insertByName("Export", sheetE)
 
     For row = 0 To 1024 ' Make sure data is less this threshold.
-        For col = 0 To 99 ' Make sure data is less than this threshold.
+        For col = 0 To 14 ' Make sure data is less than this threshold.
             Dim cellT As String : cellT = ""
             Dim cellC As Variant : cellC = 0.0
             cell = sheetI.getCellByPosition(col, row)
@@ -146,7 +146,7 @@ Function PropsBy(unit, map, sheetI) As Variant
         End Select
 
         If cellC = unit Then
-            For col = 1 To 99 ' Make sure data is less than this threshold.
+            For col = 1 To 14 ' Make sure data is less than this threshold.
                 Dim cell_T As String : cell_T = ""
                 Dim cell_C As String : cell_C = ""
                 cell = sheetI.getCellByPosition(col, row)
@@ -171,6 +171,5 @@ Function PropsBy(unit, map, sheetI) As Variant
 
     PropsBy = Array("4legs", "FL")
 End Function
-
 
 </script:module>
