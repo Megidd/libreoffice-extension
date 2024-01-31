@@ -44,6 +44,17 @@ Sub KDProcessMacro()
 
     MsgBox("Process will start. It might take some time.", 0+64+0, "Info")
     Export(sheetI, map, sheetE, unitCount, unitProp)
+
+    ' Only keep "Export" sheet to be saved as a separate file.
+    sheetI.IsVisible = False
+    sheetM.IsVisible = False
+
+    ' Keep "Export" sheet as a default sheet.
+    exists = sheets.hasByName("Sheet1")
+	if exists then sheets.removeByName("Sheet1")
+
+    sheetE.Name = "Sheet1"
+
     MsgBox("Process finished.", 0+64+0, "Info")
 
     ' Save only "Export" sheet as file.
@@ -276,19 +287,6 @@ End Sub
 Sub SaveAsExcel()
 	doc = ThisComponent
 	sheets = doc.Sheets
-
-    ' Only keep "Export" sheet to be saved as a separate file.
-    exists = sheets.hasByName("Import")
-	if exists then sheets.removeByName("Import")
-
-	exists = sheets.hasByName("Map")
-	if exists then sheets.removeByName("Map")
-
-    ' Keep only one sheet inside the file.
-    exists = sheets.hasByName("Sheet1")
-	if exists then sheets.removeByName("Sheet1")
-    sheet = sheets.getByName("Export")
-    sheet.Name = "Sheet1"
 
     Dim FilterNames(1,2) As String, Result As String
 	FilterNames(0,0) = "Excel 2007-365" : FilterNames(0,1) = "*.xlsx" : FilterNames(0,2) = "calc8"
