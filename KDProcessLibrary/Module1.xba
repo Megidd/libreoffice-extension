@@ -34,7 +34,6 @@ Sub KDProcessMacro()
     Dim unit As Long
     unit = 1
     UnitProps(unit, map, sheetI, unitProp) ' unitProp is going to be filled out.
-    Print UBound(unitProp)
 
     sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Export", sheetE)
@@ -255,6 +254,7 @@ Sub Export(sheetI, map, sheetE, unitCount, unitProp)
                     cell.setString(cellC)
                 ElseIf cellT = "FORMULA" Then
                     cell.setFormula(cellC)
+                    MsgBox("Data type is formula.", 0+48+0, "Warning")
                 ElseIf cellT = "EMPTY" Then
                     ' Do nothing for empty.
                 Else
