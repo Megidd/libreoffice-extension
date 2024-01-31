@@ -28,30 +28,7 @@ Sub KDProcessMacro()
     sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Export", sheetE)
 
-    For row = 0 To 1024 ' Make sure data is less this threshold.
-        For col = 0 To 14 ' Make sure data is less than this threshold.
-            Dim cellT As String : cellT = ""
-            Dim cellC As Variant : cellC = 0.0
-            cell = sheetI.getCellByPosition(col, row)
-            kind = cell.getType()
-            Select Case kind
-            Case com.sun.star.table.CellContentType.VALUE
-                cellT = "VALUE"
-                cellC = cell.getValue()
-            Case com.sun.star.table.CellContentType.TEXT
-                cellT = "TEXT"
-                cellC = cell.getString()
-            End Select
-            cell = sheetE.getCellByPosition(col, row)
-            If cellT = "VALUE" Then
-                cell.setValue(cellC)
-            ElseIf cellT = "TEXT" Then
-                cell.setString(cellC)
-            Else
-                ' Don't copy.
-            End If
-        Next col
-    Next row
+    Export(sheetI, sheetE)
 End Sub
 
 Function Cleanup()
@@ -193,6 +170,33 @@ Sub AppendToArray(oData(), ByVal x)
         ReDim Preserve oData(iLB To iUB +1)
     endif
     oData(iUB +1) = x
+End Sub
+
+Sub Export(sheetI, sheetE)
+    For row = 0 To 1024 ' Make sure data is less this threshold.
+        For col = 0 To 14 ' Make sure data is less than this threshold.
+            Dim cellT As String : cellT = ""
+            Dim cellC As Variant : cellC = 0.0
+            cell = sheetI.getCellByPosition(col, row)
+            kind = cell.getType()
+            Select Case kind
+            Case com.sun.star.table.CellContentType.VALUE
+                cellT = "VALUE"
+                cellC = cell.getValue()
+            Case com.sun.star.table.CellContentType.TEXT
+                cellT = "TEXT"
+                cellC = cell.getString()
+            End Select
+            cell = sheetE.getCellByPosition(col, row)
+            If cellT = "VALUE" Then
+                cell.setValue(cellC)
+            ElseIf cellT = "TEXT" Then
+                cell.setString(cellC)
+            Else
+                ' Don't copy.
+            End If
+        Next col
+    Next row
 End Sub
 
 </script:module>
