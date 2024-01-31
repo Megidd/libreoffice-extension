@@ -50,9 +50,10 @@ Sub KDProcessMacro()
 
 	Print map.Count
 
+    Dim unitProp(0 to 0) As String
     Dim unit As Long
     unit = 1
-    unitProps = PropsBy(unit, map, sheetI)
+    UnitProps(unit, map, sheetI, unitProp) ' unitProp is going to be filled out.
 
     sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Export", sheetE)
@@ -132,7 +133,8 @@ Function SheetBy(File, Name) As Object
 	SheetBy = sheet
 End Function
 
-Function PropsBy(unit, map, sheetI) As Variant
+Function UnitProps(unit, map, sheetI, ByRef unitProp As Variant)
+    Dim props(0 to 9) As String
     For row = 0 To 1024 ' Make sure data is less this threshold.
         Dim cellT As String : cellT = ""
         Dim cellC As Long : cellC = 0
@@ -158,7 +160,15 @@ Function PropsBy(unit, map, sheetI) As Variant
                 End Select
 
                 If cell_T = "TEXT" Then
-                    ' TODO: compare with map.
+                    Dim keys As Variant, key As String
+                    keys = map.Keys
+                    For Each key In keys
+                        pos = InStr(cell_C, key)
+                        If pos <> 0 Then ' Does row contain any of the map keys?
+                            AppendToArray(unitProp, key)
+                        Else
+                        End If
+                    Next key
                 Else
                     ' Nothing.
                 End If
@@ -168,8 +178,19 @@ Function PropsBy(unit, map, sheetI) As Variant
         End If
 
     Next row
-
-    PropsBy = Array("4legs", "FL")
 End Function
+
+Sub AppendToArray(oData(), ByVal x)
+    Dim iUB As Integer 'The upper bound of the array.
+    Dim iLB As Integer 'The lower bound of the array.
+    iUB = UBound(oData())
+    iLB = LBound(oData())
+    if iUB = -1 and iLB = 0 then ' An array has no defined dimension.
+        Redim oData(iLB)
+    else
+        ReDim Preserve oData(iLB To iUB +1)
+    endif
+    oData(iUB +1) = x
+End Sub
 
 </script:module>
