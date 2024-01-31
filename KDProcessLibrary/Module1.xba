@@ -23,10 +23,10 @@ Sub KDProcessMacro()
     ' 2nd column contains an object to which a propert applies.
 
     For row = 0 To 33 ' Make sure data is less this threshold.
-        Dim propT As String
-        Dim prop As String
-        Dim objT As String
-        Dim obj As String
+        Dim propT As String : propT = ""
+        Dim prop As String : prop = ""
+        Dim objT As String : objT = ""
+        Dim obj As String : obj = ""
         cell = sheetM.getCellByPosition(0, row) ' Map has 2 columns.
         kind = cell.getType()
         Select Case kind
