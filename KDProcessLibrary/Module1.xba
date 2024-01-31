@@ -38,6 +38,7 @@ Sub KDProcessMacro()
     sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Export", sheetE)
 
+    MsgBox("Process will start. It might take some time.", 0+64+0, "Info")
     Export(sheetI, map, sheetE, unitCount, unitProp)
     MsgBox("Process finished.", 0+64+0, "Info")
 
@@ -278,6 +279,12 @@ Sub SaveAsExcel()
 
 	exists = sheets.hasByName("Map")
 	if exists then sheets.removeByName("Map")
+
+    ' Keep only one sheet inside the file.
+    exists = sheets.hasByName("Sheet1")
+	if exists then sheets.removeByName("Sheet1")
+    sheet = sheets.getByName("Export")
+    sheet.Name = "Sheet1"
 
     Dim FilterNames(1,2) As String, Result As String
 	FilterNames(0,0) = "Excel 2007-365" : FilterNames(0,1) = "*.xlsx" : FilterNames(0,2) = "calc8"
