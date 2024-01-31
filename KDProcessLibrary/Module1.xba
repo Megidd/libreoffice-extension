@@ -51,9 +51,8 @@ Sub KDProcessMacro()
 	Print map.Count
 
     Dim unit As Long
-    For unit = 1 To 222
-        unitProps = PropsBy(unit, map, sheetI)
-    Next unit
+    unit = 1
+    unitProps = PropsBy(unit, map, sheetI)
 
     sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Export", sheetE)
@@ -172,5 +171,6 @@ Function PropsBy(unit, map, sheetI) As Variant
 
     PropsBy = Array("4legs", "FL")
 End Function
+
 
 </script:module>
