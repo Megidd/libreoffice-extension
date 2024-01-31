@@ -55,8 +55,8 @@ Sub KDProcessMacro()
 
     For row = 0 To 1024 ' Make sure data is less this threshold.
         For col = 0 To 99 ' Make sure data is less than this threshold.
-            Dim cellT As String
-            Dim cellC As Variant
+            Dim cellT As String : cellT = ""
+            Dim cellC As Variant : cellC = 0.0
             cell = sheetI.getCellByPosition(col, row)
             kind = cell.getType()
             Select Case kind
