@@ -39,6 +39,8 @@ Sub KDProcessMacro()
 	sheets.insertByName("Export", sheetE)
 
     Export(sheetI, map, sheetE, unitCount, unitProp)
+
+    MsgBox("Process finished.", 0+64+0, "Info")
 End Sub
 
 Function Cleanup()
