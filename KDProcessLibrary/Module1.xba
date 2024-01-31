@@ -18,12 +18,14 @@ Sub KDProcessMacro()
     Dim map As Variant
     map = CreateScriptService("Dictionary")
     PropsObjMap(sheetM, map) ' To fill map.
+
     txtArr = Array("Property map count is", " ")
     txt = Join(txtArr, Str(map.Count))
 	MsgBox(txt, 0+64+0, "Info")
 
     Dim unitCount As Long
     CountUnits(sheetI, unitCount)
+
     txtArr = Array("Unit count is", " ")
     txt = Join(txtArr, Str(unitCount))
     MsgBox(txt, 0+64+0, "Info")
@@ -37,7 +39,7 @@ Sub KDProcessMacro()
     sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Export", sheetE)
 
-    Export(sheetI, sheetE)
+    Export(sheetI, map, sheetE, unitCount, unitProp)
 End Sub
 
 Function Cleanup()
@@ -159,7 +161,7 @@ Function UnitProps(unit, map, sheetI, ByRef unitProp As Variant)
         Case Else : cellT = ""
         End Select
 
-        If cellC = unit Then
+        If cellT = "VALUE" AND cellC = unit Then
             For col = 1 To 14 ' Make sure data is less than this threshold.
                 Dim cell_T As String : cell_T = ""
                 Dim cell_C As String : cell_C = ""
@@ -205,30 +207,62 @@ Sub AppendToArray(oData(), ByVal x)
     oData(iUB +1) = x
 End Sub
 
-Sub Export(sheetI, sheetE)
+Sub Export(sheetI, map, sheetE, unitCount, unitProp)
     For row = 0 To 1024 ' Make sure data is less this threshold.
-        For col = 0 To 14 ' Make sure data is less than this threshold.
-            Dim cellT As String : cellT = ""
-            Dim cellC As Variant : cellC = 0.0
-            cell = sheetI.getCellByPosition(col, row)
-            kind = cell.getType()
-            Select Case kind
-            Case com.sun.star.table.CellContentType.VALUE
-                cellT = "VALUE"
-                cellC = cell.getValue()
-            Case com.sun.star.table.CellContentType.TEXT
-                cellT = "TEXT"
-                cellC = cell.getString()
-            End Select
-            cell = sheetE.getCellByPosition(col, row)
-            If cellT = "VALUE" Then
-                cell.setValue(cellC)
-            ElseIf cellT = "TEXT" Then
-                cell.setString(cellC)
-            Else
-                ' Don't copy.
-            End If
-        Next col
+        Dim cellT As String : cellT = ""
+        Dim cellC As Long : cellC = 0
+        cell = sheetI.getCellByPosition(0, row)
+        kind = cell.getType()
+        Select Case kind
+        Case com.sun.star.table.CellContentType.VALUE
+            cellT = "VALUE"
+            cellC = cell.getValue()
+        Case Else : cellT = ""
+        End Select
+
+        If cellT = "VALUE" AND cellC <= unitCount Then
+            For col = 0 To 14 ' Make sure data is less than this threshold.
+                Dim cellTyp As String : cellTyp = ""
+                Dim cellCon As Variant : cellCon = 0.0
+                cell = sheetI.getCellByPosition(col, row)
+                kind = cell.getType()
+                Select Case kind
+                Case com.sun.star.table.cellConontentType.VALUE
+                    cellTyp = "VALUE"
+                    cellCon = cell.getValue()
+                Case com.sun.star.table.cellConontentType.TEXT
+                    cellTyp = "TEXT"
+                    cellCon = cell.getString()
+                End Select
+
+                ' Append property to specific cells.
+                If cellTyp = "TEXT" Then
+                    Dim keys As Variant, key As String
+                    keys = map.Keys
+                    For Each key In keys
+                        pos = InStr(cellCon, map.Item(key))
+                        If pos > 0 Then ' Does cell contain any of the map keys?
+                            cellConArr = Array(cellCon, " <=> ")
+                            cellCon = Join(cellConArr, key)
+                        Else
+                        End If
+                    Next key
+                Else
+                    ' Nothing.
+                End If
+
+                ' Write to export sheet.
+                cell = sheetE.getCellByPosition(col, row)
+                If cellTyp = "VALUE" Then
+                    cell.setValue(cellCon)
+                ElseIf cellTyp = "TEXT" Then
+                    cell.setString(cellCon)
+                Else
+                    ' Don't copy.
+                End If
+            Next col
+        End If
+
     Next row
 End Sub
 
