@@ -23,15 +23,12 @@ Sub KDProcessMacro()
     map = CreateScriptService("Dictionary")
     PropsObjMap(sheetM, map) ' To fill map.
 
-    txtArr = Array("Property map count is", " ")
-    txt = Join(txtArr, Str(map.Count))
-	MsgBox(txt, 0+64+0, "Info")
-
     Dim unitCount As Long
-    CountUnits(sheetI, unitCount)
+    Dim rowCountApprox As Long
+    CountUnits(sheetI, unitCount, rowCountApprox)
 
-    txtArr = Array("Unit count is", " ")
-    txt = Join(txtArr, Str(unitCount))
+    txtArr = Array("Units:", Str(unitCount), "map props:", Str(map.Count), "rows:", Str(rowCountApprox))
+    txt = Join(txtArr, " ")
     MsgBox(txt, 0+64+0, "Info")
 
     Dim unitProp(0 to 0) As String
@@ -131,8 +128,9 @@ Sub PropsObjMap(sheetM, map) ' ByRef is default.
     Next row
 End Sub
 
-Sub CountUnits(sheetI, ByRef unitCount As Long)
+Sub CountUnits(sheetI, ByRef unitCount As Long, ByRef rowCountApprox As Long)
     unitCount = -1
+    rowCountApprox = -1
     For row = 0 To 1024 ' Make sure data is less this threshold.
         Dim cellT As String : cellT = ""
         Dim cellC As Long : cellC = -1
@@ -148,6 +146,7 @@ Sub CountUnits(sheetI, ByRef unitCount As Long)
         If cellT = "VALUE" Then
             If cellC > unitCount Then
                 unitCount = cellC
+                rowCountApprox = row
             End If
         Else
             ' This cell is not a number value.
