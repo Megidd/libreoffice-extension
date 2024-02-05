@@ -43,8 +43,10 @@ Sub KDProcessMacro()
    statusBar.start( "Processing rows ", rowCountApprox ) ' Set the initial text and limit of the status bar
 
     MsgBox("Process will start. It might take some time.", 0+64+0, "Info")
-    Export(sheetI, map, sheetE, unitCount, unitProp, statusBar)
+    Export(sheetI, map, sheetE, unitCount, unitProp, statusBar, rowCountApprox)
     MsgBox("Process finished.", 0+64+0, "Info")
+
+    statusBar.end() ' Return control to the application
 
     ' Save only "Export" sheet as file.
     SaveAsExcel()
@@ -149,7 +151,7 @@ Sub CountUnits(sheetI, ByRef unitCount As Long, ByRef rowCountApprox As Long)
         If cellT = "VALUE" Then
             If cellC > unitCount Then
                 unitCount = cellC
-                rowCountApprox = row + 10 ' Assume the last unit has 10 rows, approximately.
+                rowCountApprox = row + 50 ' Assume the last unit has 50 rows, to be safe.
             End If
         Else
             ' This cell is not a number value.
@@ -217,10 +219,12 @@ Sub AppendToArray(oData(), ByVal x)
     oData(iUB +1) = x
 End Sub
 
-Sub Export(sheetI, map, sheetE, unitCount, unitProp, statusBar)
-    For row = 0 To 1024 ' Make sure data is less this threshold.
-        statusBar.setValue( row ) ' Set the status bar value
-        statusBar.setText( "Processing the row: " + row ) ' Set the status bar text
+Sub Export(sheetI, map, sheetE, unitCount, unitProp, statusBar, rowCountApprox)
+    For row = 0 To rowCountApprox '
+        If (row mod 10) = 0 Then ' Every 10 rows, update the status bar. To avoid being too fast.
+            statusBar.setValue( row ) ' Set the status bar value
+            statusBar.setText( "Processing the row: " + row ) ' Set the status bar text
+        End If
             For col = 0 To 14 ' Make sure data is less than this threshold.
                 Dim cellT As String : cellT = ""
                 Dim cellC As Variant : cellC = 0.0
