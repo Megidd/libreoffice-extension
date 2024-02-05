@@ -146,7 +146,7 @@ Sub CountUnits(sheetI, ByRef unitCount As Long, ByRef rowCountApprox As Long)
         If cellT = "VALUE" Then
             If cellC > unitCount Then
                 unitCount = cellC
-                rowCountApprox = row
+                rowCountApprox = row + 10 ' Assume the last unit has 10 rows, approximately.
             End If
         Else
             ' This cell is not a number value.
