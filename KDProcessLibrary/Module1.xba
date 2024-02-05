@@ -222,9 +222,7 @@ End Sub
 
 Sub Export(sheetI, map, sheetE, unitCount, unitProp, statusBar, rowCountApprox)
     For row = 0 To rowCountApprox '
-        If (row mod 10) = 0 Then ' Every 10 rows, update the status bar. To avoid being too fast.
-            statusBar.setValue( row ) ' Set the status bar value
-        End If
+        statusBar.setValue( row ) ' Set the status bar value
             For col = 0 To 14 ' Make sure data is less than this threshold.
                 Dim cellT As String : cellT = ""
                 Dim cellC As Variant : cellC = 0.0
