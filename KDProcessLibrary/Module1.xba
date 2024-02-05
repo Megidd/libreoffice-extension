@@ -39,8 +39,11 @@ Sub KDProcessMacro()
     sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Export", sheetE)
 
+   statusBar = doc.getCurrentController.StatusIndicator ' Reference the active document's status bar
+   statusBar.start( "Processing rows ", rowCountApprox ) ' Set the initial text and limit of the status bar
+
     MsgBox("Process will start. It might take some time.", 0+64+0, "Info")
-    Export(sheetI, map, sheetE, unitCount, unitProp)
+    Export(sheetI, map, sheetE, unitCount, unitProp, statusBar)
     MsgBox("Process finished.", 0+64+0, "Info")
 
     ' Save only "Export" sheet as file.
@@ -214,8 +217,10 @@ Sub AppendToArray(oData(), ByVal x)
     oData(iUB +1) = x
 End Sub
 
-Sub Export(sheetI, map, sheetE, unitCount, unitProp)
+Sub Export(sheetI, map, sheetE, unitCount, unitProp, statusBar)
     For row = 0 To 1024 ' Make sure data is less this threshold.
+        statusBar.setValue( row ) ' Set the status bar value
+        statusBar.setText( "Processing the row: " + row ) ' Set the status bar text
             For col = 0 To 14 ' Make sure data is less than this threshold.
                 Dim cellT As String : cellT = ""
                 Dim cellC As Variant : cellC = 0.0
