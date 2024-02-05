@@ -41,6 +41,7 @@ Sub KDProcessMacro()
 
    statusBar = doc.getCurrentController.StatusIndicator ' Reference the active document's status bar
    statusBar.start( "Processing rows ", rowCountApprox ) ' Set the initial text and limit of the status bar
+   statusBar.setText( "Processing " + rowCountApprox + " rows") ' Set the status bar text
 
     MsgBox("Process will start. It might take some time.", 0+64+0, "Info")
     Export(sheetI, map, sheetE, unitCount, unitProp, statusBar, rowCountApprox)
@@ -223,7 +224,6 @@ Sub Export(sheetI, map, sheetE, unitCount, unitProp, statusBar, rowCountApprox)
     For row = 0 To rowCountApprox '
         If (row mod 10) = 0 Then ' Every 10 rows, update the status bar. To avoid being too fast.
             statusBar.setValue( row ) ' Set the status bar value
-            statusBar.setText( "Processing the row: " + row ) ' Set the status bar text
         End If
             For col = 0 To 14 ' Make sure data is less than this threshold.
                 Dim cellT As String : cellT = ""
