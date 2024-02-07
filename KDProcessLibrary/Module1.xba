@@ -246,8 +246,6 @@ Sub Export(sheetI, map, sheetE, unitCount, unitProp, statusBar, rowCountApprox)
                     cellC = EMPTY
                 End Select
 
-                MsgBox("Type: " + CellT + " Content: " + cellC, 0+64+0, "Info")
-
                 ' Append property to specific cells.
                 If cellT = "TEXT" Then
                     Dim keys As Variant, key As String
