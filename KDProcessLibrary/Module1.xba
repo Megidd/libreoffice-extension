@@ -162,6 +162,25 @@ Sub CountUnits(sheetI, ByRef unitCount As Long, ByRef rowCountApprox As Long)
     Next row
 End Sub
 
+Function rowUnit(sheetI, row, ByRef unit As Long)
+    Dim cellT As String : cellT = ""
+    Dim cellC As Long : cellC = 0
+    cell = sheetI.getCellByPosition(0, row)
+    kind = cell.getType()
+    Select Case kind
+    Case com.sun.star.table.CellContentType.VALUE
+        cellT = "VALUE"
+        cellC = cell.getValue()
+    Case Else : cellT = ""
+    End Select
+
+    If cellT = "VALUE" Then
+        unit = cellC
+    Else
+        unit = -1
+    End If
+End Function
+
 Function UnitProps(unit, map, sheetI, ByRef unitProp As Variant, rowCountApprox)
     For row = 0 To rowCountApprox
         Dim cellT As String : cellT = ""
@@ -224,7 +243,10 @@ End Sub
 
 Sub Export(sheetI, map, sheetE, unitCount, unitsProps, statusBar, rowCountApprox)
     For row = 0 To rowCountApprox
+        Dim unit As Long
+        rowUnit(sheetI, row, unit) ' unit to be figured out.
         statusBar.setValue( row ) ' Set the status bar value
+        If unit > -1 Then
             For col = 0 To 14 ' Make sure data is less than this threshold.
                 Dim cellT As String : cellT = ""
                 Dim cellC As Variant : cellC = 0.0
@@ -253,13 +275,24 @@ Sub Export(sheetI, map, sheetE, unitCount, unitsProps, statusBar, rowCountApprox
                     Dim keys As Variant, key As String
                     keys = map.Keys
                     For Each key In keys
-                        match = map.Item(key)
-                        match = Trim(match) ' Delete leftmost and rightmost spaces.
-                        pos = InStr(cellC, match)
-                        If pos > 0 Then ' Does cell contain any of the map keys?
-                            cellCArr = Array(cellC, key)
-                            cellC = Join(cellCArr, " === ")
-                        End If
+                        ' Check if property applies to this unit.
+                        unitProps = unitsProps(unit)
+                        LB = LBound(unitProps)
+                        UB = UBound(unitProps)
+                        For propI = LB to UB
+                            prop = unitsProps(propI)
+                            prop = Trim(prop) ' Get rid of left & right spaces, if any.
+                            key = Trim(key) ' Get rid of left & right spaces, if any.
+                            If key = prop Then ' This unit has the property.
+                                match = map.Item(key)
+                                match = Trim(match) ' Delete leftmost and rightmost spaces.
+                                pos = InStr(cellC, match)
+                                If pos > 0 Then ' Does cell contain any of the map keys?
+                                    cellCArr = Array(cellC, key)
+                                    cellC = Join(cellCArr, " === ")
+                                End If
+                            End If
+                        Next propI
                     Next key
                 Else
                     ' Nothing.
@@ -280,6 +313,7 @@ Sub Export(sheetI, map, sheetE, unitCount, unitsProps, statusBar, rowCountApprox
                     MsgBox("Data type is unkown.", 0+48+0, "Warning")
                 End If
             Next col
+        End If
     Next row
 End Sub
 
