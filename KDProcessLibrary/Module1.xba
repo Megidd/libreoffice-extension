@@ -251,9 +251,14 @@ Sub Export(sheetI, map, sheetE, unitCount, unitProp, statusBar, rowCountApprox)
                     Dim keys As Variant, key As String
                     keys = map.Keys
                     For Each key In keys
-                        pos = InStr(cellC, map.Item(key))
+                        ' Looks like a map/match cannot be found, if desired map/match is at text start.
+                        ' So, attach arbitrary characters to text start.
+                        ' TODO: Why?
+                        txtArr = Array("_", cellC)
+                        txt = Join(txtArr, "_")
+                        pos = InStr(txt, map.Item(key))
                         If pos > 0 Then ' Does cell contain any of the map keys?
-                            cellCArr = Array(cellC, key)
+                            cellCArr = Array(txt, key)
                             cellC = Join(cellCArr, " === ")
                         End If
                     Next key
