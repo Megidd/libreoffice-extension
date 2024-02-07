@@ -181,7 +181,7 @@ Function rowUnit(sheetI, row, ByRef unit As Long)
     End If
 End Function
 
-Function UnitProps(unit, map, sheetI, rowCountApprox, ByRef props As Variant)
+Sub UnitProps(unit, map, sheetI, rowCountApprox, props)
     For row = 0 To rowCountApprox
         Dim cellT As String : cellT = ""
         Dim cellC As Long : cellC = 0
@@ -226,7 +226,7 @@ Function UnitProps(unit, map, sheetI, rowCountApprox, ByRef props As Variant)
         End If
 
     Next row
-End Function
+End Sub
 
 Sub AppendToArray(oData(), ByVal x)
     Dim iUB As Integer 'The upper bound of the array.
