@@ -27,12 +27,17 @@ Sub KDProcessMacro()
     Dim rowCountApprox As Long
     CountUnits(sheetI, unitCount, rowCountApprox)
 
-    txtArr = Array("Units:", Str(unitCount), "map props:", Str(map.Count), "rows:", Str(rowCountApprox))
+    txtArr = Array("Units:", Str(unitCount), "  Maps:", Str(map.Count), "  Rows:", Str(rowCountApprox))
     txt = Join(txtArr, " ")
     MsgBox(txt, 0+64+0, "Info")
 
+   statusBar = doc.getCurrentController.StatusIndicator ' Reference the active document's status bar
+   statusBar.start( "Processing ", unitCount + rowCountApprox ) ' Set the initial text and limit of the status bar
+   statusBar.setText( "Processing " + unitCount + " units and " + rowCountApprox + " rows") ' Set the status bar text
+
     Dim unitsProps() As Variant ' For each unit, there is an array of properties.
     For unit = 0 To unitCount
+        statusBar.setValue( unit ) ' Set the status bar value
         Dim props() As String ' Array has no defined dimension so UBound(MyArr) = -1 and LBound(MyArr) = 0
         UnitProps(unit, map, sheetI, rowCountApprox, props) ' props to be appended.
         AppendToArray(unitsProps, props)
@@ -41,13 +46,7 @@ Sub KDProcessMacro()
     sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Export", sheetE)
 
-   statusBar = doc.getCurrentController.StatusIndicator ' Reference the active document's status bar
-   statusBar.start( "Processing rows ", rowCountApprox ) ' Set the initial text and limit of the status bar
-   statusBar.setText( "Processing " + rowCountApprox + " rows") ' Set the status bar text
-
-    MsgBox("Process will start. It might take some time.", 0+64+0, "Info")
     Export(sheetI, map, sheetE, unitCount, unitsProps, statusBar, rowCountApprox)
-    MsgBox("Process finished.", 0+64+0, "Info")
 
     statusBar.end() ' Return control to the application
 
@@ -236,7 +235,7 @@ Sub Export(sheetI, map, sheetE, unitCount, unitsProps, statusBar, rowCountApprox
     For row = 0 To rowCountApprox
         Dim unit As Long
         rowUnit(sheetI, row, unit) ' unit to be figured out.
-        statusBar.setValue( row ) ' Set the status bar value
+        statusBar.setValue( unitCount + row ) ' Set the status bar value
         If unit > -1 Then
             For col = 0 To 14 ' Make sure data is less than this threshold.
                 Dim cellT As String : cellT = ""
