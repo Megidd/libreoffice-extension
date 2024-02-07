@@ -31,10 +31,12 @@ Sub KDProcessMacro()
     txt = Join(txtArr, " ")
     MsgBox(txt, 0+64+0, "Info")
 
-    Dim unitProp(0 to 0) As String
-    Dim unit As Long
-    unit = 1
-    UnitProps(unit, map, sheetI, unitProp) ' unitProp is going to be filled out.
+    Dim unitsProps(0 to unitCount) As Variant ' For each unit, there is an array of properties.
+    For unit = 0 To unitCount
+        Dim props() As String ' Array has no defined dimension so UBound(MyArr) = -1 and LBound(MyArr) = 0
+        UnitProps(unit, map, sheetI, props, rowCountApprox) ' props to be appended.
+        AppendToArray(unitsProps, props)
+    Next unit
 
     sheetE = doc.createInstance("com.sun.star.sheet.Spreadsheet")
 	sheets.insertByName("Export", sheetE)
@@ -44,7 +46,7 @@ Sub KDProcessMacro()
    statusBar.setText( "Processing " + rowCountApprox + " rows") ' Set the status bar text
 
     MsgBox("Process will start. It might take some time.", 0+64+0, "Info")
-    Export(sheetI, map, sheetE, unitCount, unitProp, statusBar, rowCountApprox)
+    Export(sheetI, map, sheetE, unitCount, unitsProps, statusBar, rowCountApprox)
     MsgBox("Process finished.", 0+64+0, "Info")
 
     statusBar.end() ' Return control to the application
@@ -160,9 +162,8 @@ Sub CountUnits(sheetI, ByRef unitCount As Long, ByRef rowCountApprox As Long)
     Next row
 End Sub
 
-Function UnitProps(unit, map, sheetI, ByRef unitProp As Variant)
-    Dim props(0 to 9) As String
-    For row = 0 To 1024 ' Make sure data is less this threshold.
+Function UnitProps(unit, map, sheetI, ByRef unitProp As Variant, rowCountApprox)
+    For row = 0 To rowCountApprox
         Dim cellT As String : cellT = ""
         Dim cellC As Long : cellC = 0
         cell = sheetI.getCellByPosition(0, row)
@@ -190,7 +191,8 @@ Function UnitProps(unit, map, sheetI, ByRef unitProp As Variant)
                     Dim keys As Variant, key As String
                     keys = map.Keys
                     For Each key In keys
-                        pos = InStr(cell_C, key)
+                        match = Trim(key) ' Delete leftmost and rightmost spaces.
+                        pos = InStr(cell_C, match)
                         If pos > 0 Then ' Does row contain any of the map keys?
                             AppendToArray(unitProp, key)
                         Else
@@ -220,7 +222,7 @@ Sub AppendToArray(oData(), ByVal x)
     oData(iUB +1) = x
 End Sub
 
-Sub Export(sheetI, map, sheetE, unitCount, unitProp, statusBar, rowCountApprox)
+Sub Export(sheetI, map, sheetE, unitCount, unitsProps, statusBar, rowCountApprox)
     For row = 0 To rowCountApprox
         statusBar.setValue( row ) ' Set the status bar value
             For col = 0 To 14 ' Make sure data is less than this threshold.
