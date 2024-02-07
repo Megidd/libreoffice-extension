@@ -31,7 +31,7 @@ Sub KDProcessMacro()
     txt = Join(txtArr, " ")
     MsgBox(txt, 0+64+0, "Info")
 
-    Dim unitsProps(0 to unitCount) As Variant ' For each unit, there is an array of properties.
+    Dim unitsProps() As Variant ' For each unit, there is an array of properties.
     For unit = 0 To unitCount
         Dim props() As String ' Array has no defined dimension so UBound(MyArr) = -1 and LBound(MyArr) = 0
         UnitProps(unit, map, sheetI, props, rowCountApprox) ' props to be appended.
