@@ -34,7 +34,7 @@ Sub KDProcessMacro()
     Dim unitsProps() As Variant ' For each unit, there is an array of properties.
     For unit = 0 To unitCount
         Dim props() As String ' Array has no defined dimension so UBound(MyArr) = -1 and LBound(MyArr) = 0
-        UnitProps(unit, map, sheetI, props, rowCountApprox) ' props to be appended.
+        UnitProps(unit, map, sheetI, rowCountApprox, props) ' props to be appended.
         AppendToArray(unitsProps, props)
     Next unit
 
@@ -181,7 +181,7 @@ Function rowUnit(sheetI, row, ByRef unit As Long)
     End If
 End Function
 
-Function UnitProps(unit, map, sheetI, ByRef unitProp As Variant, rowCountApprox)
+Function UnitProps(unit, map, sheetI, rowCountApprox, ByRef props As Variant)
     For row = 0 To rowCountApprox
         Dim cellT As String : cellT = ""
         Dim cellC As Long : cellC = 0
@@ -213,7 +213,7 @@ Function UnitProps(unit, map, sheetI, ByRef unitProp As Variant, rowCountApprox)
                         match = Trim(key) ' Delete leftmost and rightmost spaces.
                         pos = InStr(cell_C, match)
                         If pos > 0 Then ' Does row contain any of the map keys?
-                            AppendToArray(unitProp, key)
+                            AppendToArray(props, key)
                         Else
                         End If
                     Next key
