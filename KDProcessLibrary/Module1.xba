@@ -280,7 +280,7 @@ Sub Export(sheetI, map, sheetE, unitCount, unitsProps, statusBar, rowCountApprox
                         LB = LBound(props)
                         UB = UBound(props)
                         For propI = LB to UB
-                            prop = unitsProps(propI)
+                            prop = props(propI)
                             prop = Trim(prop) ' Get rid of left and right spaces, if any.
                             key = Trim(key) ' Get rid of left and right spaces, if any.
                             If key = prop Then ' This unit has the property.
