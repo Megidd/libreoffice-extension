@@ -276,9 +276,9 @@ Sub Export(sheetI, map, sheetE, unitCount, unitsProps, statusBar, rowCountApprox
                     keys = map.Keys
                     For Each key In keys
                         ' Check if property applies to this unit.
-                        unitProps = unitsProps(unit)
-                        LB = LBound(unitProps)
-                        UB = UBound(unitProps)
+                        props = unitsProps(unit)
+                        LB = LBound(props)
+                        UB = UBound(props)
                         For propI = LB to UB
                             prop = unitsProps(propI)
                             prop = Trim(prop) ' Get rid of left and right spaces, if any.
