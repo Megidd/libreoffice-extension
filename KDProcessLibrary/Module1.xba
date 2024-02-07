@@ -183,18 +183,9 @@ End Function
 
 Sub UnitProps(unit, map, sheetI, rowCountApprox, props)
     For row = 0 To rowCountApprox
-        Dim cellT As String : cellT = ""
-        Dim cellC As Long : cellC = 0
-        cell = sheetI.getCellByPosition(0, row)
-        kind = cell.getType()
-        Select Case kind
-        Case com.sun.star.table.CellContentType.VALUE
-            cellT = "VALUE"
-            cellC = cell.getValue()
-        Case Else : cellT = ""
-        End Select
-
-        If cellT = "VALUE" AND cellC = unit Then
+        Dim runit As Long
+        rowUnit(sheetI, row, runit) ' runit to be figured out.
+        If runit = unit Then
             For col = 1 To 14 ' Make sure data is less than this threshold.
                 Dim cell_T As String : cell_T = ""
                 Dim cell_C As String : cell_C = ""
