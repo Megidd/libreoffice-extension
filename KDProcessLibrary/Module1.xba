@@ -251,7 +251,8 @@ Sub Export(sheetI, map, sheetE, unitCount, unitProp, statusBar, rowCountApprox)
                     Dim keys As Variant, key As String
                     keys = map.Keys
                     For Each key In keys
-                        pos = InStr(cellC, map.Item(key))
+                        match = map.Item(key)
+                        pos = InStr(cellC, match)
                         If pos > 0 Then ' Does cell contain any of the map keys?
                             cellCArr = Array(cellC, key)
                             cellC = Join(cellCArr, " === ")
