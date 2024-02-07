@@ -252,6 +252,7 @@ Sub Export(sheetI, map, sheetE, unitCount, unitProp, statusBar, rowCountApprox)
                     keys = map.Keys
                     For Each key In keys
                         match = map.Item(key)
+                        match = Trim(match) ' Delete leftmost and rightmost spaces.
                         pos = InStr(cellC, match)
                         If pos > 0 Then ' Does cell contain any of the map keys?
                             cellCArr = Array(cellC, key)
